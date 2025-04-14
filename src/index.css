@@ -2,3 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+.input {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400 shadow-sm transition duration-200;
+    }
+    
+    

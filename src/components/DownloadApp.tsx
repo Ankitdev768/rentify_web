@@ -1,111 +1,158 @@
 import React, { useEffect } from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import { QrCode } from 'lucide-react';
+import { motion, useMotionValue, useTransform, useScroll } from 'framer-motion';
+import { QRCodeCanvas } from "qrcode.react";
+import appMockup from '../assets/app-mockup.png';
 
 const DownloadApp = () => {
-  const scrollY = useMotionValue(0);
-  const textTranslateY = useTransform(scrollY, [0, 500], [0, -50]);
-  const mockupTranslateY = useTransform(scrollY, [0, 500], [0, 50]);
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
+  // Separate cursor trackers
+  const mouseX_qr = useMotionValue(0);
+  const mouseY_qr = useMotionValue(0);
+  const mouseX_phone = useMotionValue(0);
+  const mouseY_phone = useMotionValue(0);
+
+  // Magnet strengths
+  const strength_qr = 40;
+  const strength_phone = 60;
+
+  // Transforms for QR
+  const qrMagnetX = useTransform(mouseX_qr, (val) => (val - window.innerWidth / 2) / strength_qr);
+  const qrMagnetY = useTransform(mouseY_qr, (val) => (val - window.innerHeight / 2) / strength_qr);
+
+  // Transforms for Phone
+  const phoneMagnetX = useTransform(mouseX_phone, (val) => (val - window.innerWidth / 2) / strength_phone);
+  const phoneMagnetY = useTransform(mouseY_phone, (val) => (val - window.innerHeight / 2) / strength_phone);
+
+  // Add scroll animation values
+  const { scrollYProgress } = useScroll();
+  const contentX = useTransform(scrollYProgress, [0.5, 1.8], [0, -100]);
+  const mockupX = useTransform(scrollYProgress, [0.5, 1.8], [0, 100]);
+
+  // Add window width check
+  const [isDesktop, setIsDesktop] = React.useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      scrollY.set(window.scrollY);
+    const checkWidth = () => {
+      setIsDesktop(window.innerWidth >= 1024); // 1024px is the 'lg' breakpoint in Tailwind
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrollY]);
+    
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+    return () => window.removeEventListener('resize', checkWidth);
+  }, []);
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="py-20 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center bg-gradient-to-br from-indigo-500 to-purple-600 p-4 sm:p-8 md:p-10 rounded-3xl lg:h-[450px] gap-8 lg:gap-0">
-          {/* Content */}
+        <div className="flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 p-10 rounded-3xl min-h-[500px]">
+          
+          {/* Left Content */}
           <motion.div
-            style={{ y: textTranslateY }}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-white text-center sm:text-center md:text-left lg:text-left w-full lg:w-1/2"
+            style={{ x: isDesktop ? contentX : 0 }}
+            className="text-white text-center lg:text-left"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              Get the App Now
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">
-              Find rooms on the go!
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Get the App Now</h2>
+            <p className="text-xl text-white/90 mb-8">Find rooms on the go!</p>
 
-            {/* Download Buttons */}
-            <div className="flex flex-wrap gap-4 items-center justify-center sm:justify-start mb-6 w-full">
+            <div className="flex flex-row gap-4 mb-8 justify-center lg:justify-start">
               <motion.a
-                href="#"
+                href="https://pornhub.com/"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center gap-2"
+                className="w-32"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                   alt="Google Play Logo"
-                  className="w-36 sm:w-32"
+                  className="w-full"
                 />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://pornhub.com/"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center gap-2"
+                className="w-32"
               >
                 <img
                   src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
                   alt="App Store Logo"
-                  className="w-36 sm:w-32"
+                  className="w-full"
                 />
               </motion.a>
             </div>
 
-            {/* QR Code */}
-            <div className="flex flex-row flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 w-full">
-
+            {/* QR Code Magnetic */}
+            <motion.div
+              className="flex items-center gap-6 justify-center lg:justify-start"
+              onMouseMove={(e) => {
+                mouseX_qr.set(e.clientX);
+                mouseY_qr.set(e.clientY);
+              }}
+            >
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="w-20 sm:w-24 h-20 sm:h-24 bg-white p-4 rounded-lg shadow-lg relative group"
+                whileHover={{ scale: 1.1 }}
+                className="w-28 h-28 bg-gradient-to-br from-blue-500 to-purple-500 p-2 rounded-xl shadow-lg relative group flex items-center justify-center"
+                style={{
+                  x: qrMagnetX,
+                  y: qrMagnetY,
+                }}
               >
-                <QrCode className="w-full h-full text-gray-900" />
-                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity" />
+                <div className="bg-white p-2 rounded-lg shadow-md overflow-hidden">
+                  <QRCodeCanvas
+                    value="https://github.com/Ankitdev768/APP/releases/download/v1.0.0/rentify.apk"
+                    size={80}
+                    fgColor="#000000"
+                    marginSize={0}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity" />
               </motion.div>
-              <div className="text-center sm:text-left">
+              <div>
                 <p className="font-semibold mb-1">Scan to Download</p>
-                <p className="text-sm text-white/80">
-                  Point your camera at the QR code to download the app
-                </p>
+                <p className="text-sm text-white/80">Point your camera at the QR code to download the app</p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Phone Mockup */}
+          {/* Phone Magnetic */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative w-full flex justify-center lg:justify-end lg:w-1/2"
+            className="relative mt-10 lg:mt-0"
+            style={{
+              y: phoneMagnetY,
+              x: isDesktop ? mockupX : 0
+            }}
+            onMouseMove={(e) => {
+              mouseX_phone.set(e.clientX);
+              mouseY_phone.set(e.clientY);
+            }}
           >
-            <div className="relative w-[180px] sm:w-[200px] md:w-[240px] h-[360px] sm:h-[420px] md:h-[500px] bg-black rounded-[2rem] sm:rounded-[3rem] border-[8px] sm:border-[12px] border-black overflow-hidden shadow-2xl">
+            <motion.div
+              className="relative mx-auto w-[280px] h-[550px] bg-black rounded-[3rem] border-[14px] border-black overflow-hidden shadow-2xl"
+              style={{
+                x: phoneMagnetX,
+                y: phoneMagnetY,
+              }}
+            >
               <img
-                src="https://github.com/TheSensors/thesensorsimage/blob/main/Room%20Booking%20App.png?raw=true"
+                src={appMockup}
                 alt="App interface mockup"
                 className="w-full h-full object-cover z-10"
               />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100px] h-[30px] bg-black rounded-b-[18px] z-20" />
-              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[100px] h-1 bg-white/80 rounded-full z-20" />
-            </div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-b-[18px] z-20" />
+              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[120px] h-1 bg-white/80 rounded-full z-20" />
+            </motion.div>
 
+            {/* Blur Glow */}
             <motion.div
-              className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[240px] md:w-[280px] h-[500px] md:h-[580px] bg-gradient-to-tr from-white/20 to-transparent rounded-[3rem] blur-xl -z-10"
-              style={{ rotateX, rotateY }}
+              className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-[280px] h-[580px] bg-gradient-to-tr from-white/20 to-transparent rounded-[3rem] blur-xl -z-10"
+              style={{ x: phoneMagnetX, y: phoneMagnetY }}
             />
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import heroBg from '../assets/herobg.jpeg';
 
 const Hero = () => {
   const { scrollY } = useScroll();
@@ -16,8 +17,7 @@ const Hero = () => {
         <div
           className="absolute inset-0 bg-cover bg-center scale-125 brightness-90"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3')",
+            backgroundImage: `url(${heroBg})`,
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80" />
@@ -69,7 +69,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             {/* Play Store */}
             <a
-              href="#"
+              href="https://pornhub.com/"
               className="group relative overflow-hidden px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-indigo-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center"
             >
               <img
@@ -83,7 +83,7 @@ const Hero = () => {
 
             {/* App Store */}
             <a
-              href="#"
+              href="https://pornhub.com/"
               className="group relative overflow-hidden px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-purple-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/30 flex items-center justify-center"
             >
               <img

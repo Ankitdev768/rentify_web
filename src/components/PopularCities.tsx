@@ -3,30 +3,38 @@ import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { ArrowRight } from 'lucide-react';
 
+// Import images
+import delhiImg from '../assets/room1.jpeg';
+import mumbaiImg from '../assets/room2.jpeg';
+import patnaImg from '../assets/room3.jpeg';
+import kolkataImg from '../assets/room4.jpeg';
+import bangaloreImg from '../assets/room5.jpeg';
+import hyderabadImg from '../assets/room6.jpeg';
+
 const cities = [
   {
     name: 'Delhi',
-    image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3',
+    image: delhiImg,
   },
   {
     name: 'Mumbai',
-    image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?ixlib=rb-4.0.3',
+    image: mumbaiImg,
   },
   {
     name: 'Patna',
-    image: 'https://images.unsplash.com/photo-1623065691913-e9a650810efd?ixlib=rb-4.0.3',
+    image: patnaImg,
   },
   {
     name: 'Kolkata',
-    image: 'https://images.unsplash.com/photo-1558431382-27e303142255?ixlib=rb-4.0.3',
+    image: kolkataImg,
   },
   {
     name: 'Bangalore',
-    image: 'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?ixlib=rb-4.0.3',
+    image: bangaloreImg,
   },
   {
     name: 'Hyderabad',
-    image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?ixlib=rb-4.0.3',
+    image: hyderabadImg,
   },
 ];
 
