@@ -1,5 +1,6 @@
 import React from 'react';
-import { Facebook, Instagram, Twitter, Linkedin, Home } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+import logo from '../assets/rentify_logo.png'; // Import your logo
 
 const Footer = () => {
   return (
@@ -7,9 +8,13 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Home className="w-8 h-8 text-indigo-400" />
-              <span className="text-2xl font-bold">Rentify</span>
+            {/* Replace house icon and Rentify text with your logo */}
+            <div className="mb-4">
+              <img
+                src={logo} // Logo image path
+                alt="coZyo"
+                className="w-auto h-16 md:h-20" // Adjust the size of the logo
+              />
             </div>
             <p className="text-gray-400">
               Making room hunting easier and more accessible for everyone.
@@ -53,7 +58,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>© 2025 Rentify. All Rights Reserved.</p>
+          <p>© 2025 coZyo. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

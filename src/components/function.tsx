@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Player } from "@lottiefiles/react-lottie-player";
-import appPreview from "../assets/app-mockup.png";
+import MockupLogo from '../assets/MockupLogo.png'
 import healthyAnim from "../animations/flat.json";
 import vegModeAnim from "../animations/hostel.json";
 import partyAnim from "../animations/mess.json";
@@ -106,16 +106,13 @@ const AppFeatures = () => {
             })}
 
             <motion.img
-              src={appPreview}
+              src={MockupLogo}
               alt="App preview"
               style={{
                 position: "absolute",
-                top: "10%",
-                left: "7%",
+                top: "25%",
                 transform: "translate(-50%, -50%)",
-                width: "220px",
-                height: "410px",
-                borderRadius: "0.75rem",
+                borderRadius: "50%",
                 objectFit: "cover",
                 zIndex: 0,
               }}

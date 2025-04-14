@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import heroBg from '../assets/herobg.jpeg';
+import logo from '../assets/rentify_logo.png';
 
 const Hero = () => {
   const { scrollY } = useScroll();
@@ -28,15 +29,21 @@ const Hero = () => {
         style={{ y: contentY }}
         className="relative z-10 h-full flex flex-col items-center justify-center px-4 text-center"
       >
-        {/* Rentify Heading */}
-        <motion.h2
+        {/* Rentify Logo */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-indigo-400 to-purple-400 text-transparent bg-clip-text mb-2 tracking-widest"
+          className="mb-2"
         >
-          Rentify
-        </motion.h2>
+          <img
+            src={logo}
+            alt="coZyo"
+            className="w-auto h-32 md:h-40" // Increased height
+          />
+
+        </motion.div>
+
 
         {/* Subheading */}
         <motion.h1

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { QRCodeCanvas } from "qrcode.react";
-import appMockup from '../assets/app-mockup.png';
+import MockupLogo from '../assets/MockupLogo.png'
 
 const DownloadApp = () => {
   // Separate cursor trackers
@@ -34,7 +34,7 @@ const DownloadApp = () => {
     const checkWidth = () => {
       setIsDesktop(window.innerWidth >= 1024); // 1024px is the 'lg' breakpoint in Tailwind
     };
-    
+
     checkWidth();
     window.addEventListener('resize', checkWidth);
     return () => window.removeEventListener('resize', checkWidth);
@@ -44,7 +44,7 @@ const DownloadApp = () => {
     <section className="py-20 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 p-10 rounded-3xl min-h-[500px]">
-          
+
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -134,17 +134,19 @@ const DownloadApp = () => {
             }}
           >
             <motion.div
-              className="relative mx-auto w-[280px] h-[550px] bg-black rounded-[3rem] border-[14px] border-black overflow-hidden shadow-2xl"
+              className="relative mx-auto w-[280px] h-[550px] bg-white rounded-[3rem] border-[14px] border-black overflow-hidden shadow-2xl"
               style={{
                 x: phoneMagnetX,
                 y: phoneMagnetY,
               }}
             >
               <img
-                src={appMockup}
-                alt="App interface mockup"
-                className="w-full h-full object-cover z-10"
+                src={MockupLogo}
+                alt="App preview"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full object-cover z-0"
+                style={{ objectFit: "cover" }} // Optional if you want to apply object-fit explicitly
               />
+
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-b-[18px] z-20" />
               <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[120px] h-1 bg-white/80 rounded-full z-20" />
             </motion.div>
