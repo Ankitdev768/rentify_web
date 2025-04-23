@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}', // Added from your request
+  ],
+  darkMode: 'class', // Added from your request
   theme: {
     extend: {
       fontFamily: {
@@ -45,6 +50,8 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'), // Added from your request
+  ],
 };
 

@@ -76,7 +76,7 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
             {/* Play Store */}
             <a
-              href="https://pornhub.com/"
+              href="#"
               className="group relative overflow-hidden px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-indigo-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-indigo-500/30 flex items-center justify-center"
             >
               <img
@@ -90,7 +90,7 @@ const Hero = () => {
 
             {/* App Store */}
             <a
-              href="https://pornhub.com/"
+              href="#"
               className="group relative overflow-hidden px-5 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-purple-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/30 flex items-center justify-center"
             >
               <img

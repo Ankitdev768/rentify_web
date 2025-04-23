@@ -2,7 +2,20 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MessOwnerRegistration() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    messName: string;
+    phone: string;
+    email: string;
+    messType: string;
+    hours: string;
+    price: string;
+    cuisine: string;
+    menu: string;
+    address: string;
+    feedback: string;
+    images: File[];
+  }>({
     name: '',
     messName: '',
     phone: '',
@@ -17,17 +30,17 @@ export default function MessOwnerRegistration() {
     images: [],
   });
 
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [imageLimitError, setImageLimitError] = useState(false);
   const [imageCountError, setImageCountError] = useState(false);
   const [showRequiredFieldsError, setShowRequiredFieldsError] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // New state for success popup
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === 'file') {
-      const selectedImages = Array.from(files);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    if (type === 'file' && e.target instanceof HTMLInputElement) {
+      const selectedImages = Array.from(e.target.files || []) as File[];
       const totalImages = formData.images.length + selectedImages.length;
 
       if (totalImages > 5) {
@@ -46,22 +59,22 @@ export default function MessOwnerRegistration() {
     }
   };
 
-  const removeImage = (indexToRemove) => {
+  const removeImage = (indexToRemove: number) => {
     const updatedImages = formData.images.filter((_, i) => i !== indexToRemove);
     const updatedPreviews = imagePreviews.filter((_, i) => i !== indexToRemove);
     setFormData({ ...formData, images: updatedImages });
     setImagePreviews(updatedPreviews);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Check for required fields
-    const requiredFields = [
+    const requiredFields: (keyof typeof formData)[] = [
       'name', 'messName', 'phone', 'email', 'messType', 'hours', 'price', 'cuisine', 'menu', 'address', 'feedback'
     ];
 
-    const isFormValid = requiredFields.every(field => formData[field]);
+    const isFormValid = requiredFields.every(field => formData[field] !== '');
 
     if (!isFormValid || formData.images.length < 5) {
       setShowRequiredFieldsError(true);
@@ -82,14 +95,14 @@ export default function MessOwnerRegistration() {
 
   const inputVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: (i) => ({
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: { delay: i * 0.05 },
     }),
   };
 
-  const renderInput = (label, name, type = 'text', i) => (
+  const renderInput = (label: string, name: string, type: string = 'text', i: number) => (
     <motion.div
       className="relative w-full"
       custom={i}

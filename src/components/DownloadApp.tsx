@@ -59,7 +59,7 @@ const DownloadApp = () => {
 
             <div className="flex flex-row gap-4 mb-8 justify-center lg:justify-start">
               <motion.a
-                href="https://pornhub.com/"
+                href="#"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-32"
@@ -71,7 +71,7 @@ const DownloadApp = () => {
                 />
               </motion.a>
               <motion.a
-                href="https://pornhub.com/"
+                href="#"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-32"

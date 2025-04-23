@@ -9,10 +9,13 @@ import Function from './components/function';
 import Join from './components/join';
 import DownloadApp from './components/DownloadApp';
 import Footer from './components/Footer';
+import ContactPage from './components/ContactPage';
 
 // 👇 Import the partner forms
-import MessOwnerForm from './pages/MessOwnerForm';
-import RoomOwnerForm from './pages/RoomOwnerForm';
+import MessOwnerWeb from './pages/Mess/MessOwnerWeb';
+import RoomOwnerWeb from './pages/Room/RoomOwnerWeb';
+import MessOwnerForm from './pages/Mess/MessOwnerForm';
+import RoomOwnerForm from './pages/Room/RoomOwnerForm';
 
 function App() {
   return (
@@ -36,8 +39,11 @@ function App() {
         />
 
         {/* Routes for partner forms */}
-        <Route path="/mess-owner" element={<MessOwnerForm />} />
-        <Route path="/room-owner" element={<RoomOwnerForm />} />
+        <Route path="/mess-owner" element={<MessOwnerWeb />} />
+        <Route path="/room-owner" element={<RoomOwnerWeb />} />
+        <Route path="/mess-owner-form" element={<MessOwnerForm />} />
+        <Route path="/room-owner-form" element={<RoomOwnerForm />} />
+        <Route path="/contact-page" element={<ContactPage />} />
       </Routes>
     </Router>
   );
