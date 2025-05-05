@@ -129,10 +129,10 @@ const Join = () => {
           >
             <div className="relative bg-white rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] transition-all duration-300 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)]">
               <div className="relative flex justify-between items-start">
-                <div className="p-4 bg-green-50 rounded-2xl">
-                  <HomeIcon className="text-green-600 w-10 h-10" />
+                <div className="p-4 bg-blue-50 rounded-2xl">
+                  <HomeIcon className="text-blue-600 w-10 h-10" />
                 </div>
-                <span className="text-sm font-semibold text-green-600 bg-green-50 px-4 py-1 rounded-full">
+                <span className="text-sm font-semibold text-blue-600 bg-blue-50 px-4 py-1 rounded-full">
                   High Demand
                 </span>
               </div>
@@ -142,16 +142,16 @@ const Join = () => {
               
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
+                    <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <span className="text-gray-600">Verified tenants only</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center">
-                    <svg className="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
+                    <svg className="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
@@ -163,7 +163,7 @@ const Join = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => window.open('/room-owner', '_blank')}
-                className="mt-8 w-full bg-green-600 text-white py-4 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2 hover:bg-green-700 transition-colors duration-300"
+                className="mt-8 w-full bg-blue-600 text-white py-4 px-6 rounded-2xl font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors duration-300"
               >
                 Get Started
                 <ArrowRight className="w-5 h-5" />

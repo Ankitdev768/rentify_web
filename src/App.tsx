@@ -10,12 +10,14 @@ import Join from './components/join';
 import DownloadApp from './components/DownloadApp';
 import Footer from './components/Footer';
 import ContactPage from './components/ContactPage';
+import ReportFraudPage from './components/ReportFraudPage';
 
 // 👇 Import the partner forms
 import MessOwnerWeb from './pages/Mess/MessOwnerWeb';
 import RoomOwnerWeb from './pages/Room/RoomOwnerWeb';
 import MessOwnerForm from './pages/Mess/MessOwnerForm';
 import RoomOwnerForm from './pages/Room/RoomOwnerForm';
+import Home from './pages/About/home'; // Fix casing to match actual file name
 
 function App() {
   return (
@@ -44,6 +46,9 @@ function App() {
         <Route path="/mess-owner-form" element={<MessOwnerForm />} />
         <Route path="/room-owner-form" element={<RoomOwnerForm />} />
         <Route path="/contact-page" element={<ContactPage />} />
+        <Route path="/fraud-page" element={<ReportFraudPage />} />
+        <Route path="/about-us" element={<Home />} /> 
+        <Route path="/#" element={<Hero />} />
       </Routes>
     </Router>
   );

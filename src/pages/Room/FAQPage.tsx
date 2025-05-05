@@ -43,16 +43,16 @@ const FAQPage = () => {
   const faqs = [
     {
       category: "Getting Started",
-      icon: "🚀",
+      icon: "🏠",
       questions: [
         {
-          question: "How do I register my mess on coZyo?",
-          answer: "Registration is simple! Click on the 'Register as Vendor' button, fill in your mess details including location, capacity, and menu options. Our team will verify your information within 24 hours.",
-          tags: ["registration", "vendor", "setup"]
+          question: "How do I register my room on coZyo?",
+          answer: "Registration is simple! Click on the 'Register as Room Owner' button, fill in your room details including location, capacity, and amenities. Our team will verify your information within 24 hours.",
+          tags: ["registration", "room owner", "setup"]
         },
         {
           question: "What documents do I need to register?",
-          answer: "You'll need: A valid food license, GST registration (if applicable), proof of business ownership, and recent photographs of your mess facility.",
+          answer: "You'll need: Proof of property ownership or rental agreement, a valid government-issued ID, and recent photographs of your room/property.",
           tags: ["documents", "registration", "requirements"]
         },
         {
@@ -61,39 +61,38 @@ const FAQPage = () => {
           tags: ["verification", "timeline", "process"]
         },
         {
-          question: "Can I register multiple mess locations under one account?",
-          answer: "Yes! You can manage multiple locations under a single account. Each location will have its own dashboard while sharing the main account credentials. Click on 'Add New Location' in your vendor dashboard to expand your business.",
-          tags: ["multiple locations", "expansion", "management"]
+          question: "Can I register multiple rooms under one account?",
+          answer: "Yes! You can manage multiple rooms under a single account. Each room will have its own dashboard while sharing the main account credentials. Click on 'Add New Room' in your owner dashboard to expand your business.",
+          tags: ["multiple rooms", "expansion", "management"]
         }
       ]
     },
     {
-      category: "Menu Management",
-      icon: "🍽️",
+      category: "Room Management",
+      icon: "🛏️",
       questions: [
         {
-          question: "How do I set up my daily menu?",
-          answer: "Navigate to 'Menu Management' in your dashboard. You can create daily, weekly, or monthly menu cycles. Use our bulk upload feature for multiple items or add them individually. Don't forget to set pricing and availability for each item.",
-          tags: ["menu", "pricing", "items"]
+          question: "How do I set up room availability?",
+          answer: "Navigate to 'Room Management' in your dashboard. You can set availability for each room, including check-in and check-out times. Use the bulk upload feature to manage multiple rooms at once.",
+          tags: ["availability", "room setup", "management"]
         },
         {
-          question: "Can I offer special diet options?",
-          answer: "Absolutely! You can categorize your menu items as vegetarian, vegan, gluten-free, etc. You can also create special diet packages for customers with specific dietary requirements.",
-          tags: ["diet", "special menu", "customization"]
+          question: "Can I offer additional amenities?",
+          answer: "Absolutely! You can list amenities like Wi-Fi, air conditioning, meals, etc., for each room. Custom packages can also be created for long-term stays or special requests.",
+          tags: ["amenities", "customization", "packages"]
         },
         {
-          question: "How to handle seasonal menu changes?",
-          answer: "Use the 'Seasonal Menu' feature to plan ahead. You can schedule menu changes up to 3 months in advance. This helps in better inventory management and customer communication.",
-          tags: ["seasonal", "planning", "menu change"]
+          question: "How to handle seasonal pricing?",
+          answer: "Use the 'Seasonal Pricing' feature to plan ahead. You can schedule price changes for peak or off-peak seasons. This helps in maximizing revenue and better customer communication.",
+          tags: ["pricing", "seasonal", "planning"]
         },
         {
-          question: "What's the best way to price my meals?",
+          question: "What's the best way to price my rooms?",
           answer: "Consider your costs, local competition, and target audience. Our analytics tool can help you understand market rates in your area. We recommend starting with competitive pricing and adjusting based on demand and feedback.",
           tags: ["pricing", "strategy", "market analysis"]
         }
       ]
-    },
-    // ... (other categories remain the same)
+    }
   ];
 
   // Get all unique categories
@@ -132,7 +131,7 @@ const FAQPage = () => {
       variants={containerVariants}
       className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8"
     >
-      {/* Enhanced Header Section */}
+      {/* Header Section */}
       <motion.div 
         className="max-w-7xl mx-auto text-center mb-16"
         variants={itemVariants}
@@ -146,7 +145,7 @@ const FAQPage = () => {
           How can we help you?
         </motion.h1>
 
-        {/* Enhanced Search Bar */}
+        {/* Search Bar */}
         <div className="max-w-3xl mx-auto relative">
           <div className="relative">
             <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -189,7 +188,7 @@ const FAQPage = () => {
         </div>
       </motion.div>
 
-      {/* Enhanced FAQ Grid */}
+      {/* FAQ Grid */}
       <motion.div 
         className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8"
         variants={containerVariants}
@@ -200,7 +199,6 @@ const FAQPage = () => {
             variants={itemVariants}
             className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
           >
-            {/* Enhanced Category Header */}
             <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600">
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">{category.icon}</span>
@@ -208,7 +206,6 @@ const FAQPage = () => {
               </div>
             </div>
 
-            {/* Enhanced Questions */}
             <div className="divide-y divide-gray-100">
               {category.questions.map((faq, index) => (
                 <Disclosure key={index}>
@@ -269,7 +266,7 @@ const FAQPage = () => {
         ))}
       </motion.div>
 
-      {/* Enhanced Contact Section */}
+      {/* Contact Section */}
       <motion.div 
         variants={itemVariants}
         className="max-w-3xl mx-auto mt-16 text-center"

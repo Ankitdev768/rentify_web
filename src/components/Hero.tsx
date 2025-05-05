@@ -34,15 +34,16 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-2"
+          className="mb-2 cursor-pointer"
+          onClick={() => window.open('https://www.cozyo.in', 'noopener,noreferrer')}
         >
           <img
             src={logo}
             alt="coZyo"
             className="w-auto h-32 md:h-40" // Increased height
           />
-
         </motion.div>
+
 
 
         {/* Subheading */}

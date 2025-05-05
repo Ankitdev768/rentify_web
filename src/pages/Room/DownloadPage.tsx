@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import appDemo from '../../assets/app-demo.mp4';
+import appPoster from '../../assets/MockupLogo.png';
 
 const DownloadPage = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -31,32 +34,84 @@ const DownloadPage = () => {
 
       {/* Main content */}
       <div className="relative container mx-auto px-4 py-16">
-      
-
         {/* Hero Section */}
         <div className={`text-center mt-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h1 className="text-7xl font-bold text-white mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400">
             coZyo
           </h1>
           <p className="text-2xl text-purple-100 mb-12 max-w-2xl mx-auto">
-            Transform Your Mess Vendor Management Experience
+            Simplify Room Management for Owners
           </p>
 
           {/* Mobile App Mockup */}
-          <div className="relative max-w-xs mx-auto mb-16">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-[3rem] blur-xl opacity-50 animate-pulse"></div>
-            <div className="relative bg-black rounded-[2.5rem] p-4 aspect-[9/19] shadow-2xl">
-              <div className="absolute inset-4 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-[2rem] overflow-hidden">
-                {/* App interface mockup content here */}
-                <div className="h-full w-full bg-black/20 backdrop-blur-sm p-6">
-                  <div className="w-20 h-2 bg-white/20 rounded-full mb-4"></div>
-                  <div className="space-y-4">
-                    <div className="w-full h-24 bg-white/10 rounded-xl"></div>
-                    <div className="w-full h-16 bg-white/10 rounded-xl"></div>
-                    <div className="w-3/4 h-16 bg-white/10 rounded-xl"></div>
+          <div className="relative max-w-[300px] mx-auto mb-16">
+            {/* Enhanced glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-[3.75rem] blur-2xl opacity-40 animate-pulse"></div>
+            
+            {/* iPhone frame with more accurate dimensions and details */}
+            <div className="relative bg-[#1A1A1A] rounded-[3.75rem] p-3 aspect-[9/19.5] shadow-2xl border-[8px] border-[#121212]">
+              {/* Dynamic Island */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[33px] w-[126px] bg-black z-30 rounded-b-[24px]">
+                <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-[90px] h-[25px] bg-black rounded-[20px] flex items-center justify-between px-3">
+                  <div className="w-[12px] h-[12px] bg-[#1a1a1a] rounded-full flex items-center justify-center">
+                    <div className="w-[8px] h-[8px] bg-[#2c2c2c] rounded-full"></div>
                   </div>
+                  <div className="w-[40px] h-[4px] bg-[#1a1a1a] rounded-full"></div>
+                  <div className="w-[12px] h-[12px] bg-[#1a1a1a] rounded-full"></div>
                 </div>
               </div>
+
+              {/* Screen with better gradient and details */}
+              <div className="absolute inset-3 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-[2.75rem] overflow-hidden">
+                {/* Enhanced status bar */}
+                <div className="w-full h-8 bg-black/30 backdrop-blur-md flex items-center justify-between px-8 relative z-20">
+                  <span className="text-white/90 text-[14px] font-medium tracking-tight">9:41</span>
+                  <div className="flex items-center space-x-2">
+                    <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.8 5.4c-2.1 0-4 .9-5.3 2.3-.7.7-1.3 1.6-1.6 2.6-.3.9-.4 1.8-.3 2.7.1.9.4 1.8.8 2.6.4.8 1 1.5 1.7 2.1.7.6 1.6 1 2.5 1.2.9.2 1.9.2 2.8-.1.9-.2 1.7-.7 2.4-1.3.7-.6 1.3-1.4 1.6-2.3.4-.9.5-1.8.5-2.8h-2c0 .7-.1 1.3-.3 1.9-.2.6-.6 1.1-1 1.5-.5.4-1 .7-1.6.8-.6.2-1.3.2-1.9 0-.6-.1-1.2-.4-1.7-.8s-0.9-.9-1.1-1.4c-.3-.5-.4-1.1-.5-1.7 0-.6 0-1.2.2-1.8.2-.6.5-1.1.9-1.5.4-.4.9-.8 1.5-1 .6-.2 1.2-.3 1.8-.2v-2z"/>
+                    </svg>
+                    <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M2 22h20V2L2 22z"/>
+                    </svg>
+                    <svg className="w-6 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
+                    </svg>
+                  </div>
+                </div>
+
+                {/* App Content */}
+                <div className="relative h-full w-full bg-black/10 backdrop-blur-sm">
+                  <div className="w-full h-[calc(100%-4rem)] overflow-hidden">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      poster={appPoster}
+                      className="w-full h-full object-cover"
+                    >
+                      <source src={appDemo} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    {/* Enhanced gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
+                  </div>
+
+                  {/* Enhanced home indicator */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-white/40 rounded-full"></div>
+                </div>
+              </div>
+
+              {/* Enhanced side buttons */}
+              <div className="absolute -right-[3px] top-[100px] w-[3px] h-[65px] bg-[#121212] rounded-l-sm"></div>
+              <div className="absolute -left-[3px] top-[80px] w-[3px] h-[35px] bg-[#121212] rounded-r-sm"></div>
+              <div className="absolute -left-[3px] top-[130px] w-[3px] h-[65px] bg-[#121212] rounded-r-sm"></div>
+
+              {/* Volume slider visualization */}
+              <div className="absolute -left-[2px] top-[85px] w-[1px] h-[25px] bg-[#2c2c2c] rounded-r opacity-50"></div>
+
+              {/* Silent mode switch */}
+              <div className="absolute -left-[4px] top-[65px] w-[4px] h-[20px] bg-[#121212] rounded-r-sm"></div>
             </div>
           </div>
 
@@ -92,13 +147,13 @@ const DownloadPage = () => {
         {/* Features Section */}
         <div id="features" className="mt-20">
           <h2 className="text-4xl font-bold text-white text-center mb-16 bg-clip-text">
-            Experience the Future of Mess Management
+            Manage Your Rooms Seamlessly
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 title: "Smart Dashboard",
-                description: "Real-time analytics and insights for better decision making",
+                description: "Track room occupancy, bookings, and revenue in real-time.",
                 icon: (
                   <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -106,8 +161,8 @@ const DownloadPage = () => {
                 )
               },
               {
-                title: "Inventory Control",
-                description: "Effortlessly manage your inventory with advanced tracking",
+                title: "Automated Bookings",
+                description: "Simplify booking management with an automated system.",
                 icon: (
                   <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -115,8 +170,8 @@ const DownloadPage = () => {
                 )
               },
               {
-                title: "Smart Billing",
-                description: "Automated billing and payment processing system",
+                title: "Payment Integration",
+                description: "Secure and seamless payment options for your tenants.",
                 icon: (
                   <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -140,9 +195,9 @@ const DownloadPage = () => {
         {/* App Stats */}
         <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { number: "50K+", label: "Active Users" },
-            { number: "4.8", label: "App Rating" },
-            { number: "1M+", label: "Meals Served" },
+            { number: "10K+", label: "Room Owners" },
+            { number: "4.9", label: "App Rating" },
+            { number: "500K+", label: "Bookings Processed" },
             { number: "24/7", label: "Support" }
           ].map((stat, index) => (
             <div key={index} className="text-center">
@@ -159,7 +214,7 @@ const DownloadPage = () => {
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">coZyo</h3>
-              <p className="text-purple-200">Revolutionizing mess vendor management with smart technology</p>
+              <p className="text-purple-200">Enhancing room management through smart technology</p>
             </div>
             <div className="text-right">
               <div className="flex justify-end space-x-6">

@@ -5,13 +5,17 @@ import heroBg from '../../assets/heroBg.jpeg';
 import logo from '../../assets/rentify_logo.png';
 import WhyPartner from './WhyPartner';
 import FAQPage from './FAQPage';
+import DownloadPage from './DownloadPage';
 
 const Hero = () => {
   const { scrollY } = useScroll();
 
   // Parallax movement for different layers
-  const backgroundY = useTransform(scrollY, [0, 500], [0, 200]);
+  const backgroundY = useTransform(scrollY, [0, 500], [0, 300]);
+  const midLayerY = useTransform(scrollY, [0, 500], [0, 150]);
   const contentY = useTransform(scrollY, [0, 300], [0, -100]);
+  const logoScale = useTransform(scrollY, [0, 200], [1, 0.8]);
+  const logoOpacity = useTransform(scrollY, [0, 200], [1, 0.5]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
@@ -26,6 +30,14 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/80" />
       </motion.div>
 
+      {/* Mid Layer with Parallax Effect */}
+      <motion.div
+        style={{ y: midLayerY }}
+        className="absolute inset-0 z-5 mix-blend-overlay"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/10 to-green-500/20 opacity-30" />
+      </motion.div>
+
       {/* Content */}
       <motion.div
         style={{ y: contentY }}
@@ -36,6 +48,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          style={{ scale: logoScale, opacity: logoOpacity }}
           className="mb-2"
         >
           <img
@@ -87,24 +100,26 @@ const Hero = () => {
           className="flex flex-col md:flex-row gap-4 mt-8"
         >
           {/* List Room Button */}
-          <button
-            onClick={() => window.open('/list-property', '_blank')}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.open('/room-owner-form', '_blank')}
             className="group relative overflow-hidden px-8 py-4 rounded-2xl bg-white text-gray-900 hover:bg-blue-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/30 flex items-center justify-center font-semibold text-lg"
           >
             List Your Property
-          </button>
+          </motion.button>
 
           {/* Owner Dashboard Button */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => window.open('/owner-dashboard', '_blank')}
             className="group relative overflow-hidden px-8 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 hover:border-blue-400 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/30 flex items-center justify-center text-white font-semibold text-lg"
           >
             Owner Dashboard
             <span className="absolute inset-0 bg-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl blur-sm" />
-          </button>
+          </motion.button>
         </motion.div>
-
-       
 
         {/* Scroll Indicator */}
         <motion.div
@@ -116,19 +131,16 @@ const Hero = () => {
         </motion.div>
       </motion.div>
     </div>
-    
   );
 };
 
 const RoomOwnerWeb = () => {
   return (
     <div>
-      {/* Hero Section */}
       <Hero />
-
-      {/* Why Partner Section */}
       <WhyPartner />
-      <FAQPage/>
+      <FAQPage />
+      <DownloadPage />
     </div>
   );
 };

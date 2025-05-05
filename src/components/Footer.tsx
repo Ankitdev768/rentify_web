@@ -10,12 +10,15 @@ const Footer = () => {
           <div>
             {/* Replace house icon and Rentify text with your logo */}
             <div className="mb-4">
-              <img
-                src={logo} // Logo image path
-                alt="coZyo"
-                className="w-auto h-16 md:h-20" // Adjust the size of the logo
-              />
+              <a href="https://www.cozyo.in" rel="noopener noreferrer">
+                <img
+                  src={logo} // Logo image path
+                  alt="coZyo"
+                  className="w-auto h-16 md:h-20" // Adjust the size of the logo
+                />
+              </a>
             </div>
+
             <p className="text-gray-400">
               Making room hunting easier and more accessible for everyone.
             </p>
@@ -24,11 +27,11 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-            <li>
+              <li>
                 <a
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
-                  onClick={() => window.open('/mess-owner', '_blank')}
+                  onClick={() => window.open('/about-us', '_blank')}
                 >
                   About Us
                 </a>
@@ -46,11 +49,12 @@ const Footer = () => {
                 <a
                   href="#"
                   className="text-gray-400 hover:text-white transition-colors"
-                  onClick={() => window.open('/mess-owner', '_blank')}
+                  onClick={() => window.open('/fraud-page', '_blank')}
                 >
-                  FAQ
+                  Report a Fraud
                 </a>
               </li>
+              
             </ul>
           </div>
 
@@ -92,9 +96,15 @@ const Footer = () => {
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="https://www.instagram.com/cozyo.in/"
+                className="text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Instagram className="w-6 h-6" />
               </a>
+
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <Twitter className="w-6 h-6" />
               </a>
