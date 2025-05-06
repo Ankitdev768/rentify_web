@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion'; // Remove useSpring
+import MockupVideo from '../../assets/app-demo.mp4'; // Adjust the path as necessary
 
 const DownloadPage = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -11,7 +13,7 @@ const DownloadPage = () => {
 
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 500); 
+    }, 500);
 
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -44,20 +46,23 @@ const DownloadPage = () => {
 
           {/* Mobile App Mockup */}
           <div className="relative max-w-xs mx-auto mb-16">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-[3rem] blur-xl opacity-50 animate-pulse"></div>
-            <div className="relative bg-black rounded-[2.5rem] p-4 aspect-[9/19] shadow-2xl">
-              <div className="absolute inset-4 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-[2rem] overflow-hidden">
-                {/* App interface mockup content here */}
-                <div className="h-full w-full bg-black/20 backdrop-blur-sm p-6">
-                  <div className="w-20 h-2 bg-white/20 rounded-full mb-4"></div>
-                  <div className="space-y-4">
-                    <div className="w-full h-24 bg-white/10 rounded-xl"></div>
-                    <div className="w-full h-16 bg-white/10 rounded-xl"></div>
-                    <div className="w-3/4 h-16 bg-white/10 rounded-xl"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <motion.div
+              className="relative mx-auto w-[280px] h-[550px] bg-white rounded-[3rem] border-[14px] border-black overflow-hidden shadow-2xl"
+            >
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-0"
+              >
+                <source src={ MockupVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-b-[18px] z-20" />
+              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[120px] h-1 bg-white/80 rounded-full z-20" />
+            </motion.div>
           </div>
 
           {/* Download Buttons */}

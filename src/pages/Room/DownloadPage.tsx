@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
-import appDemo from '../../assets/app-demo.mp4';
-import appPoster from '../../assets/MockupLogo.png';
+import React, { useEffect, useState } from 'react';
+import { motion, useSpring } from 'framer-motion';
+import MockupVideo from '../../assets/app-demo.mp4'; // Make sure to add your mockup image
 
 const DownloadPage = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -44,75 +43,24 @@ const DownloadPage = () => {
           </p>
 
           {/* Mobile App Mockup */}
-          <div className="relative max-w-[300px] mx-auto mb-16">
-            {/* Enhanced glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 rounded-[3.75rem] blur-2xl opacity-40 animate-pulse"></div>
-            
-            {/* iPhone frame with more accurate dimensions and details */}
-            <div className="relative bg-[#1A1A1A] rounded-[3.75rem] p-3 aspect-[9/19.5] shadow-2xl border-[8px] border-[#121212]">
-              {/* Dynamic Island */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[33px] w-[126px] bg-black z-30 rounded-b-[24px]">
-                <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-[90px] h-[25px] bg-black rounded-[20px] flex items-center justify-between px-3">
-                  <div className="w-[12px] h-[12px] bg-[#1a1a1a] rounded-full flex items-center justify-center">
-                    <div className="w-[8px] h-[8px] bg-[#2c2c2c] rounded-full"></div>
-                  </div>
-                  <div className="w-[40px] h-[4px] bg-[#1a1a1a] rounded-full"></div>
-                  <div className="w-[12px] h-[12px] bg-[#1a1a1a] rounded-full"></div>
-                </div>
-              </div>
+          <div className="relative max-w-xs mx-auto mb-16">
+            <motion.div
+              className="relative mx-auto w-[280px] h-[550px] bg-white rounded-[3rem] border-[14px] border-black overflow-hidden shadow-2xl"
+            >
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-0"
+              >
+                <source src={MockupVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
 
-              {/* Screen with better gradient and details */}
-              <div className="absolute inset-3 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-[2.75rem] overflow-hidden">
-                {/* Enhanced status bar */}
-                <div className="w-full h-8 bg-black/30 backdrop-blur-md flex items-center justify-between px-8 relative z-20">
-                  <span className="text-white/90 text-[14px] font-medium tracking-tight">9:41</span>
-                  <div className="flex items-center space-x-2">
-                    <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12.8 5.4c-2.1 0-4 .9-5.3 2.3-.7.7-1.3 1.6-1.6 2.6-.3.9-.4 1.8-.3 2.7.1.9.4 1.8.8 2.6.4.8 1 1.5 1.7 2.1.7.6 1.6 1 2.5 1.2.9.2 1.9.2 2.8-.1.9-.2 1.7-.7 2.4-1.3.7-.6 1.3-1.4 1.6-2.3.4-.9.5-1.8.5-2.8h-2c0 .7-.1 1.3-.3 1.9-.2.6-.6 1.1-1 1.5-.5.4-1 .7-1.6.8-.6.2-1.3.2-1.9 0-.6-.1-1.2-.4-1.7-.8s-0.9-.9-1.1-1.4c-.3-.5-.4-1.1-.5-1.7 0-.6 0-1.2.2-1.8.2-.6.5-1.1.9-1.5.4-.4.9-.8 1.5-1 .6-.2 1.2-.3 1.8-.2v-2z"/>
-                    </svg>
-                    <svg className="w-4 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M2 22h20V2L2 22z"/>
-                    </svg>
-                    <svg className="w-6 h-4 text-white/90" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
-                    </svg>
-                  </div>
-                </div>
-
-                {/* App Content */}
-                <div className="relative h-full w-full bg-black/10 backdrop-blur-sm">
-                  <div className="w-full h-[calc(100%-4rem)] overflow-hidden">
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      poster={appPoster}
-                      className="w-full h-full object-cover"
-                    >
-                      <source src={appDemo} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                    {/* Enhanced gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30"></div>
-                  </div>
-
-                  {/* Enhanced home indicator */}
-                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-white/40 rounded-full"></div>
-                </div>
-              </div>
-
-              {/* Enhanced side buttons */}
-              <div className="absolute -right-[3px] top-[100px] w-[3px] h-[65px] bg-[#121212] rounded-l-sm"></div>
-              <div className="absolute -left-[3px] top-[80px] w-[3px] h-[35px] bg-[#121212] rounded-r-sm"></div>
-              <div className="absolute -left-[3px] top-[130px] w-[3px] h-[65px] bg-[#121212] rounded-r-sm"></div>
-
-              {/* Volume slider visualization */}
-              <div className="absolute -left-[2px] top-[85px] w-[1px] h-[25px] bg-[#2c2c2c] rounded-r opacity-50"></div>
-
-              {/* Silent mode switch */}
-              <div className="absolute -left-[4px] top-[65px] w-[4px] h-[20px] bg-[#121212] rounded-r-sm"></div>
-            </div>
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[120px] h-[35px] bg-black rounded-b-[18px] z-20" />
+              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-[120px] h-1 bg-white/80 rounded-full z-20" />
+            </motion.div>
           </div>
 
           {/* Download Buttons */}

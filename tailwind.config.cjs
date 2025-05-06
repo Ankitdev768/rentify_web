@@ -1,11 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-    './src/**/*.{js,jsx,ts,tsx}', // Added from your request
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./index.html",
   ],
-  darkMode: 'class', // Added from your request
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -17,7 +16,6 @@ module.exports = {
         'float-slow': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'gradient': 'gradient 8s linear infinite',
-        'float': 'float 6s ease-in-out infinite',
       },
       keyframes: {
         blob: {
@@ -38,11 +36,6 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
         },
-        pulse: {
-          '0%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.1)' },
-          '100%': { transform: 'scale(1)' },
-        },
         gradient: {
           '0%, 100%': {
             'background-size': '200% 200%',
@@ -51,8 +44,8 @@ module.exports = {
           '50%': {
             'background-size': '200% 200%',
             'background-position': 'right center'
-          },
-        },
+          }
+        }
       },
       backgroundImage: {
         'grid-pattern': "linear-gradient(to right, rgb(0,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgb(0,0,0,0.1) 1px, transparent 1px)",
@@ -66,7 +59,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/forms'), // Added from your request
+    require('@tailwindcss/forms'),
   ],
-};
+}
 
