@@ -194,3 +194,14 @@
   background-size: 200% 200%;
   animation: gradient 15s ease infinite;
 }
+
+/* Add to your global CSS or module CSS */
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+.transition-all {
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
