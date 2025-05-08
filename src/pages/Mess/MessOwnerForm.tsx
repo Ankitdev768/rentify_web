@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { MdRestaurantMenu, MdFoodBank, MdDescription } from 'react-icons/md';
 import { BiRestaurant } from 'react-icons/bi';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
+import logo from '../../assets/rentify_logo.png'; 
 
 const headerAnimations = {
   container: {
@@ -75,11 +76,33 @@ const MessVendorRegistrationPage = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData(prevState => ({
-      ...prevState,
-      menuFile: e.target.files[0]
-    }));
+  // Modify the validateMenuFile function to only accept menu.pdf
+  const validateMenuFile = (file: File): boolean => {
+    const expectedFileName = 'menu.pdf';
+    return file.name.toLowerCase() === expectedFileName;
+  };
+
+  // Update the handleFileChange function
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.type !== 'application/pdf') {
+        showMessage('Please upload a PDF file only');
+        e.target.value = '';
+        return;
+      }
+
+      if (!validateMenuFile(file)) {
+        showMessage('File name must be "menu.pdf"');
+        e.target.value = '';
+        return;
+      }
+
+      setFormData(prevState => ({
+        ...prevState,
+        menuFile: file
+      }));
+    }
   };
 
   const showMessage = (message: string) => {
@@ -90,12 +113,14 @@ const MessVendorRegistrationPage = () => {
     }, 3000);
   };
 
-  const validateStep = (currentStep: number) => {
+  // First, update the validateStep function to handle all steps:
+  const validateStep = (currentStep: number): boolean => {
     const newErrors: Record<string, string> = {};
 
     switch (currentStep) {
       case 1:
         if (!formData.fullName) newErrors.fullName = 'Full name is required';
+        if (!formData.messName) newErrors.messName = 'Mess name is required';
         if (!formData.email) newErrors.email = 'Email is required';
         else if (!/\S+@\S+\.\S+/.test(formData.email)) {
           newErrors.email = 'Invalid email format';
@@ -105,31 +130,71 @@ const MessVendorRegistrationPage = () => {
           newErrors.phoneNumber = 'Invalid phone number format';
         }
         break;
-      // Add validation for other steps...
+
+      case 2:
+        if (!formData.foodType) newErrors.foodType = 'Food type is required';
+        if (!formData.openingTime) newErrors.openingTime = 'Opening time is required';
+        if (!formData.closingTime) newErrors.closingTime = 'Closing time is required';
+        if (!formData.pricingRange) newErrors.pricingRange = 'Pricing range is required';
+        break;
+
+      case 3:
+        if (!formData.cuisineType) newErrors.cuisineType = 'Cuisine type is required';
+        if (!formData.restaurantAddress) newErrors.restaurantAddress = 'Restaurant address is required';
+        if (!formData.menuDescription) newErrors.menuDescription = 'Menu description is required';
+        if (!formData.menuFile) newErrors.menuFile = 'Menu file is required';
+        break;
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Then, update the Next button click handler
+  const handleNextStep = (e: React.MouseEvent) => {
+    // Prevent any form submission
+    e.preventDefault();
+    
+    if (validateStep(step)) {
+      setStep(step + 1);
+    }
+  };
+
+  // Update the handleSubmit function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate all fields one final time
+    if (!validateStep(4)) {
+      showMessage('Please fill in all required fields correctly');
+      return;
+    }
+  
     setIsLoading(true);
-
+  
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+      // Simulate API call with actual form submission
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Only show success message and confetti after successful submission
       showMessage('Registration submitted successfully!');
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }
       });
+  
+      // Optional: Reset form or redirect
+      // setFormData(initialFormState);
+      // setStep(1);
+      
     } catch (error) {
       showMessage('Error submitting registration');
     } finally {
       setIsLoading(false);
     }
   };
+  
 
   const FloatingLabelInput: React.FC<{
     label: string;
@@ -393,38 +458,52 @@ const MessVendorRegistrationPage = () => {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            <div className="flex items-center gap-2">
-              <FiUpload className="text-gray-400" />
-              Upload Menu
-            </div>
-          </label>
-          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-            <div className="space-y-1 text-center">
-              <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
-              <div className="flex text-sm text-gray-600">
-                <label
-                  htmlFor="file-upload"
-                  className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+          <div className="space-y-1 text-center">
+            {formData.menuFile ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-center space-x-2 text-blue-600">
+                  <FiFileText className="h-8 w-8" />
+                  <span className="font-medium">{formData.menuFile.name}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, menuFile: null }));
+                    // Reset the file input
+                    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+                    if (fileInput) fileInput.value = '';
+                  }}
+                  className="text-sm text-red-600 hover:text-red-700 font-medium"
                 >
-                  <span>Upload a file</span>
-                  <input
-                    id="file-upload"
-                    name="menuFile"
-                    type="file"
-                    className="sr-only"
-                    onChange={handleFileChange}
-                    accept="image/*,.pdf"
-                    required
-                  />
-                </label>
-                <p className="pl-1">or drag and drop</p>
+                  Remove file
+                </button>
               </div>
-              <p className="text-xs text-gray-500">
-                PNG, JPG, PDF up to 5MB
-              </p>
-            </div>
+            ) : (
+              <>
+                <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+                <div className="flex flex-col text-sm text-gray-600">
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                  >
+                    <span>Upload menu PDF</span>
+                    <input
+                      id="file-upload"
+                      name="menuFile"
+                      type="file"
+                      className="sr-only"
+                      onChange={handleFileChange}
+                      accept=".pdf"
+                      required
+                    />
+                  </label>
+                  <p className="text-xs text-gray-500 mt-2">
+                    File name must be: menu.pdf
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -515,31 +594,28 @@ const MessVendorRegistrationPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-4 sm:py-8 px-2 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
       {/* Header Banner */}
       <motion.div 
-        className="w-full max-w-4xl mx-auto"
+        className="w-full"
         variants={headerAnimations.container}
         initial="initial"
         animate="animate"
       >
-        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-t-2xl shadow-lg overflow-hidden">
-          <div className="px-4 sm:px-8 py-6 sm:py-8 text-white backdrop-blur-sm bg-black/5">
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 shadow-lg overflow-hidden">
+          <div className="px-8 py-8 text-white backdrop-blur-sm bg-black/5">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <div className="space-y-2">
                 <motion.h1 
                   className="text-3xl sm:text-4xl font-bold flex items-center gap-3 group"
                   variants={headerAnimations.text}
                 >
-                  <motion.div
-                    variants={headerAnimations.logo}
-                    whileHover="hover"
-                  >
-                    <BiRestaurant className="text-5xl" />
-                  </motion.div>
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">
-                    coZyo
-                  </span>
+                  
+                  <img 
+                    src={logo} // Update with your actual logo path
+                    alt="Cozyo Logo"
+                    className="h-24 sm:h-32" // Adjust size as needed
+                  />
                 </motion.h1>
                 <motion.p 
                   className="text-blue-100 max-w-md text-sm sm:text-base"
@@ -564,9 +640,9 @@ const MessVendorRegistrationPage = () => {
       </motion.div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto bg-white rounded-b-2xl shadow-lg">
+      <div className="bg-white">
         {/* Welcome Section */}
-        <div className="px-4 sm:px-8 py-6 border-b border-gray-200">
+        <div className="px-8 py-6 border-b border-gray-200">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
             Become a Mess Vendor
           </h2>
@@ -613,7 +689,7 @@ const MessVendorRegistrationPage = () => {
         </div>
 
         {/* Progress Steps */}
-        <div className="px-4 sm:px-8 py-6">
+        <div className="px-8 py-6">
           <div className="hidden sm:flex justify-between mb-8">
             {[
               { number: 1, title: "Basic Info", icon: <FiUser /> },
@@ -671,7 +747,7 @@ const MessVendorRegistrationPage = () => {
           </div>
 
           {/* Form Container */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+          <div className="bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Update grid layouts in form sections */}
               {step === 1 && (
@@ -690,9 +766,14 @@ const MessVendorRegistrationPage = () => {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.fullName ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.fullName && (
+                        <p className="mt-1 text-xs text-red-500">{errors.fullName}</p>
+                      )}
                     </div>
 
                     <div>
@@ -707,9 +788,14 @@ const MessVendorRegistrationPage = () => {
                         name="messName"
                         value={formData.messName}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.messName ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.messName && (
+                        <p className="mt-1 text-xs text-red-500">{errors.messName}</p>
+                      )}
                     </div>
 
                     <div>
@@ -724,9 +810,14 @@ const MessVendorRegistrationPage = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.email ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.email && (
+                        <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+                      )}
                     </div>
 
                     <div>
@@ -741,9 +832,14 @@ const MessVendorRegistrationPage = () => {
                         name="phoneNumber"
                         value={formData.phoneNumber}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.phoneNumber ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.phoneNumber && (
+                        <p className="mt-1 text-xs text-red-500">{errors.phoneNumber}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -764,7 +860,9 @@ const MessVendorRegistrationPage = () => {
                         name="foodType"
                         value={formData.foodType}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.foodType ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       >
                         <option value="">Select Food Type</option>
@@ -772,6 +870,9 @@ const MessVendorRegistrationPage = () => {
                         <option value="non-veg">Non-Vegetarian</option>
                         <option value="both">Both</option>
                       </select>
+                      {errors.foodType && (
+                        <p className="mt-1 text-xs text-red-500">{errors.foodType}</p>
+                      )}
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -787,9 +888,14 @@ const MessVendorRegistrationPage = () => {
                           name="openingTime"
                           value={formData.openingTime}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                          className={`w-full px-4 py-2 rounded-lg border ${
+                            errors.openingTime ? 'border-red-500' : 'border-gray-300'
+                          } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                           required
                         />
+                        {errors.openingTime && (
+                          <p className="mt-1 text-xs text-red-500">{errors.openingTime}</p>
+                        )}
                       </div>
 
                       <div>
@@ -804,9 +910,14 @@ const MessVendorRegistrationPage = () => {
                           name="closingTime"
                           value={formData.closingTime}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                          className={`w-full px-4 py-2 rounded-lg border ${
+                            errors.closingTime ? 'border-red-500' : 'border-gray-300'
+                          } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                           required
                         />
+                        {errors.closingTime && (
+                          <p className="mt-1 text-xs text-red-500">{errors.closingTime}</p>
+                        )}
                       </div>
                     </div>
 
@@ -821,7 +932,9 @@ const MessVendorRegistrationPage = () => {
                         name="pricingRange"
                         value={formData.pricingRange}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.pricingRange ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       >
                         <option value="">Select Price Range</option>
@@ -829,6 +942,9 @@ const MessVendorRegistrationPage = () => {
                         <option value="medium">Medium (₹100-150 per meal)</option>
                         <option value="premium">Premium (₹150+ per meal)</option>
                       </select>
+                      {errors.pricingRange && (
+                        <p className="mt-1 text-xs text-red-500">{errors.pricingRange}</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -849,7 +965,9 @@ const MessVendorRegistrationPage = () => {
                         name="cuisineType"
                         value={formData.cuisineType}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.cuisineType ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       >
                         <option value="">Select Cuisine Type</option>
@@ -859,6 +977,9 @@ const MessVendorRegistrationPage = () => {
                         <option value="continental">Continental</option>
                         <option value="mixed">Mixed</option>
                       </select>
+                      {errors.cuisineType && (
+                        <p className="mt-1 text-xs text-red-500">{errors.cuisineType}</p>
+                      )}
                     </div>
 
                     <div>
@@ -873,9 +994,14 @@ const MessVendorRegistrationPage = () => {
                         value={formData.restaurantAddress}
                         onChange={handleInputChange}
                         rows={3}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.restaurantAddress ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.restaurantAddress && (
+                        <p className="mt-1 text-xs text-red-500">{errors.restaurantAddress}</p>
+                      )}
                     </div>
 
                     <div>
@@ -890,43 +1016,62 @@ const MessVendorRegistrationPage = () => {
                         value={formData.menuDescription}
                         onChange={handleInputChange}
                         rows={4}
-                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        className={`w-full px-4 py-2 rounded-lg border ${
+                          errors.menuDescription ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
                         required
                       />
+                      {errors.menuDescription && (
+                        <p className="mt-1 text-xs text-red-500">{errors.menuDescription}</p>
+                      )}
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <div className="flex items-center gap-2">
-                          <FiUpload className="text-gray-400" />
-                          Upload Menu
-                        </div>
-                      </label>
-                      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-                        <div className="space-y-1 text-center">
-                          <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                      <div className="space-y-1 text-center">
+                        {formData.menuFile ? (
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-center space-x-2 text-blue-600">
+                              <FiFileText className="h-8 w-8" />
+                              <span className="font-medium">{formData.menuFile.name}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, menuFile: null }));
+                                // Reset the file input
+                                const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+                                if (fileInput) fileInput.value = '';
+                              }}
+                              className="text-sm text-red-600 hover:text-red-700 font-medium"
                             >
-                              <span>Upload a file</span>
-                              <input
-                                id="file-upload"
-                                name="menuFile"
-                                type="file"
-                                className="sr-only"
-                                onChange={handleFileChange}
-                                accept="image/*,.pdf"
-                                required
-                              />
-                            </label>
-                            <p className="pl-1">or drag and drop</p>
+                              Remove file
+                            </button>
                           </div>
-                          <p className="text-xs text-gray-500">
-                            PNG, JPG, PDF up to 5MB
-                          </p>
-                        </div>
+                        ) : (
+                          <>
+                            <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+                            <div className="flex flex-col text-sm text-gray-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                              >
+                                <span>Upload menu PDF</span>
+                                <input
+                                  id="file-upload"
+                                  name="menuFile"
+                                  type="file"
+                                  className="sr-only"
+                                  onChange={handleFileChange}
+                                  accept=".pdf"
+                                  required
+                                />
+                              </label>
+                              <p className="text-xs text-gray-500 mt-2">
+                                File name must be: menu.pdf
+                              </p>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -1037,8 +1182,8 @@ const MessVendorRegistrationPage = () => {
 
                 {step < 4 ? (
                   <button
-                    type="button"
-                    onClick={() => setStep(step + 1)}
+                    type="button" // Change to type="button" to prevent form submission
+                    onClick={handleNextStep}
                     className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-blue-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
                   >
                     Next
@@ -1048,11 +1193,26 @@ const MessVendorRegistrationPage = () => {
                   </button>
                 ) : (
                   <button
-                    type="submit"
-                    className="w-full sm:w-auto px-4 sm:px-6 py-3 bg-green-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 transition-colors"
+                    type="submit" // Keep this as type="submit" for final submission
+                    disabled={isLoading}
+                    className={`w-full sm:w-auto px-4 sm:px-6 py-3 ${
+                      isLoading ? 'bg-green-400' : 'bg-green-600'
+                    } text-white rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 transition-colors`}
                   >
-                    Submit Registration
-                    <BsFillCheckCircleFill className="w-5 h-5" />
+                    {isLoading ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Submit Registration
+                        <BsFillCheckCircleFill className="w-5 h-5" />
+                      </>
+                    )}
                   </button>
                 )}
               </div>
@@ -1063,9 +1223,17 @@ const MessVendorRegistrationPage = () => {
 
       {/* Popup Message */}
       {showPopup && (
-        <div className="fixed bottom-4 right-4 max-w-[90%] sm:max-w-md bg-green-600 text-white px-4 sm:px-6 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center gap-2">
-          <BsFillCheckCircleFill className="text-xl flex-shrink-0" />
-          <span className="text-sm sm:text-base">{popupMessage}</span>
+        <div className={`fixed bottom-8 right-8 max-w-md px-6 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center gap-2 ${
+          popupMessage.includes('menu.pdf') ? 'bg-red-600' : 'bg-green-600'
+        } text-white`}>
+          {popupMessage.includes('menu.pdf') ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <BsFillCheckCircleFill className="text-xl flex-shrink-0" />
+          )}
+          <span>{popupMessage}</span>
         </div>
       )}
     </div>
