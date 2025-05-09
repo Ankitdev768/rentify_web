@@ -240,7 +240,7 @@ const RoomOwnerRegistrationPage = () => {
       // Add a small delay before reloading to show the success message
       setTimeout(() => {
         window.location.reload();
-      }, 3000);
+      }, 4000);
 
     } catch (error) {
       showMessage('Error submitting registration');
@@ -475,7 +475,7 @@ const RoomOwnerRegistrationPage = () => {
           )}
         </div>
 
-        <div>
+        <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <div className="flex items-center gap-2">
               <MdDescription className="text-gray-400" />
@@ -486,14 +486,25 @@ const RoomOwnerRegistrationPage = () => {
             name="propertyDescription"
             value={formData.propertyDescription}
             onChange={handleInputChange}
-            rows={4}
-            className={`w-full px-4 py-2 rounded-lg border ${errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
-              } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+            placeholder="Describe your property, including key features, nearby amenities, and house rules..."
+            rows={6}
+            className={`w-full px-4 py-3 rounded-lg border ${
+              errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
+            } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[150px] max-h-[300px]`}
             required
           />
-          {errors.propertyDescription && (
-            <p className="mt-1 text-xs text-red-500">{errors.propertyDescription}</p>
-          )}
+          <div className="mt-1 flex justify-between items-center">
+            {errors.propertyDescription ? (
+              <p className="text-xs text-red-500">{errors.propertyDescription}</p>
+            ) : (
+              <p className="text-xs text-gray-500">
+                Minimum {50 - formData.propertyDescription.length > 0 ? 50 - formData.propertyDescription.length : 0} characters needed
+              </p>
+            )}
+            <p className="text-xs text-gray-500">
+              {formData.propertyDescription.length}/500 characters
+            </p>
+          </div>
         </div>
 
         <div>
@@ -1119,7 +1130,7 @@ const RoomOwnerRegistrationPage = () => {
                     )}
                   </div>
 
-                  <div>
+                  <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       <div className="flex items-center gap-2">
                         <MdDescription className="text-gray-400" />
@@ -1130,15 +1141,25 @@ const RoomOwnerRegistrationPage = () => {
                       name="propertyDescription"
                       value={formData.propertyDescription}
                       onChange={handleInputChange}
-                      placeholder="Describe your property, amenities, rules, and other important details"
-                      rows={4}
-                      className={`w-full px-4 py-2 rounded-lg border ${errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
-                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
+                      placeholder="Describe your property, including key features, nearby amenities, and house rules..."
+                      rows={6}
+                      className={`w-full px-4 py-3 rounded-lg border ${
+                        errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
+                      } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[150px] max-h-[300px]`}
                       required
                     />
-                    {errors.propertyDescription && (
-                      <p className="mt-1 text-xs text-red-500">{errors.propertyDescription}</p>
-                    )}
+                    <div className="mt-1 flex justify-between items-center">
+                      {errors.propertyDescription ? (
+                        <p className="text-xs text-red-500">{errors.propertyDescription}</p>
+                      ) : (
+                        <p className="text-xs text-gray-500">
+                          Minimum {50 - formData.propertyDescription.length > 0 ? 50 - formData.propertyDescription.length : 0} characters needed
+                        </p>
+                      )}
+                      <p className="text-xs text-gray-500">
+                        {formData.propertyDescription.length}/500 characters
+                      </p>
+                    </div>
                   </div>
 
                   <div>

@@ -150,50 +150,46 @@ const MessVendorRegistrationPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Then, update the Next button click handler
-  const handleNextStep = (e: React.MouseEvent) => {
-    // Prevent any form submission
-    e.preventDefault();
-    
-    if (validateStep(step)) {
-      setStep(step + 1);
-    }
-  };
+   const handleNextStep = (e: React.MouseEvent) => {
+      e.preventDefault();
+  
+      if (validateStep(step)) {
+        setStep(step + 1);
+      }
+    };
 
-  // Update the handleSubmit function
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate all fields one final time
-    if (!validateStep(4)) {
-      showMessage('Please fill in all required fields correctly');
-      return;
-    }
+   const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
   
-    setIsLoading(true);
+      if (!validateStep(4)) {
+        showMessage('Please fill in all required fields correctly');
+        return;
+      }
   
-    try {
-      // Simulate API call with actual form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Only show success message and confetti after successful submission
-      showMessage('Registration submitted successfully!');
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      setIsLoading(true);
   
-      // Optional: Reset form or redirect
-      // setFormData(initialFormState);
-      // setStep(1);
-      
-    } catch (error) {
-      showMessage('Error submitting registration');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        // Simulate API call with actual form submission
+        await new Promise(resolve => setTimeout(resolve, 2000));
+  
+        showMessage('Registration submitted successfully!');
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+  
+        // Add a small delay before reloading to show the success message
+        setTimeout(() => {
+          window.location.reload();
+        }, 4000);
+  
+      } catch (error) {
+        showMessage('Error submitting registration');
+      } finally {
+        setIsLoading(false);
+      }
+    };
   
 
   const FloatingLabelInput: React.FC<{
