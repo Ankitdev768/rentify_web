@@ -747,8 +747,8 @@ const MessVendorRegistrationPage = () => {
           </div>
 
           {/* Form Container */}
-          <div className="bg-white">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white px-4 sm:px-6 md:px-8 lg:px-16 max-w-7xl mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-6 py-8">
               {/* Update grid layouts in form sections */}
               {step === 1 && (
                 <div className="space-y-6">
