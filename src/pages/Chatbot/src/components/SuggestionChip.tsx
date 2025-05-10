@@ -3,6 +3,7 @@ import React from 'react';
 interface SuggestionChipProps {
   text: string;
   onClick: () => void;
+  isDarkMode: boolean;
 }
 
 const SuggestionChip: React.FC<SuggestionChipProps> = ({ text, onClick }) => {
