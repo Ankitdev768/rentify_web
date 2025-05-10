@@ -423,63 +423,70 @@ const RoomOwnerRegistrationPage = () => {
   );
 
   const renderRoomInformation = () => (
-    <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-gray-800 mb-6">Room Information</h3>
-      <div className="grid grid-cols-1 gap-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            <div className="flex items-center gap-2">
-              <MdHouse className="text-gray-400" />
-              Room Type
-            </div>
-          </label>
-          <select
-            name="roomType"
-            value={formData.roomType}
-            onChange={handleInputChange}
-            className={`w-full px-4 py-2 rounded-lg border ${errors.roomType ? 'border-red-500' : 'border-gray-300'
+    <div className="space-y-8">
+      <h3 className="text-xl font-semibold text-gray-800 mb-6">Room Details</h3>
+      <div className="grid grid-cols-1 gap-8">
+        {/* Room Type and Address Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="flex items-center gap-2">
+                <MdApartment className="text-gray-400" />
+                Room Type <span className="text-red-500">*</span>
+              </div>
+            </label>
+            <select
+              name="roomType"
+              value={formData.roomType}
+              onChange={handleInputChange}
+              className={`w-full px-4 py-2.5 rounded-lg border ${
+                errors.roomType ? 'border-red-500' : 'border-gray-300'
               } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-            required
-          >
-            <option value="">Select Room Type</option>
-            <option value="1bhk">1 BHK</option>
-            <option value="2bhk">2 BHK</option>
-            <option value="3bhk">3 BHK</option>
-            <option value="4bhk">4 BHK</option>
-            <option value="single">Single Room</option>
-            <option value="sharing">Sharing Room</option>
-          </select>
-          {errors.roomType && (
-            <p className="mt-1 text-xs text-red-500">{errors.roomType}</p>
-          )}
+              required
+            >
+              <option value="">Select Room Type</option>
+              <option value="1bhk">1 BHK</option>
+              <option value="2bhk">2 BHK</option>
+              <option value="3bhk">3 BHK</option>
+              <option value="4bhk">4+ BHK</option>
+              <option value="single">Single Room</option>
+              <option value="sharing">Sharing Room</option>
+            </select>
+            {errors.roomType && (
+              <p className="mt-1 text-xs text-red-500">{errors.roomType}</p>
+            )}
+          </div>
+
+          <div className="col-span-1 md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="flex items-center gap-2">
+                <FiMapPin className="text-gray-400" />
+                Property Address <span className="text-red-500">*</span>
+              </div>
+            </label>
+            <textarea
+              name="propertyAddress"
+              value={formData.propertyAddress}
+              onChange={handleInputChange}
+              placeholder="Enter complete address including landmark, city, and PIN code"
+              rows={3}
+              className={`w-full px-4 py-2.5 rounded-lg border ${
+                errors.propertyAddress ? 'border-red-500' : 'border-gray-300'
+              } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none`}
+              required
+            />
+            {errors.propertyAddress && (
+              <p className="mt-1 text-xs text-red-500">{errors.propertyAddress}</p>
+            )}
+          </div>
         </div>
 
+        {/* Description Section */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            <div className="flex items-center gap-2">
-              <FiMapPin className="text-gray-400" />
-              Property Address
-            </div>
-          </label>
-          <textarea
-            name="propertyAddress"
-            value={formData.propertyAddress}
-            onChange={handleInputChange}
-            rows={3}
-            className={`w-full px-4 py-2 rounded-lg border ${errors.propertyAddress ? 'border-red-500' : 'border-gray-300'
-              } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-            required
-          />
-          {errors.propertyAddress && (
-            <p className="mt-1 text-xs text-red-500">{errors.propertyAddress}</p>
-          )}
-        </div>
-
-        <div className="col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             <div className="flex items-center gap-2">
               <MdDescription className="text-gray-400" />
-              Property Description
+              Property Description <span className="text-red-500">*</span>
             </div>
           </label>
           <textarea
@@ -487,34 +494,35 @@ const RoomOwnerRegistrationPage = () => {
             value={formData.propertyDescription}
             onChange={handleInputChange}
             placeholder="Describe your property, including key features, nearby amenities, and house rules..."
-            rows={6}
+            rows={4}
             className={`w-full px-4 py-3 rounded-lg border ${
               errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
-            } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[150px] max-h-[300px]`}
+            } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[120px] max-h-[300px]`}
             required
           />
-          <div className="mt-1 flex justify-between items-center">
-            {errors.propertyDescription ? (
-              <p className="text-xs text-red-500">{errors.propertyDescription}</p>
-            ) : (
-              <p className="text-xs text-gray-500">
-                Minimum {50 - formData.propertyDescription.length > 0 ? 50 - formData.propertyDescription.length : 0} characters needed
-              </p>
-            )}
+          <div className="mt-1 flex flex-col sm:flex-row justify-between gap-2">
+            <p className="text-xs text-gray-500">
+              {errors.propertyDescription ? (
+                <span className="text-red-500">{errors.propertyDescription}</span>
+              ) : (
+                `Minimum ${Math.max(0, 50 - formData.propertyDescription.length)} characters needed`
+              )}
+            </p>
             <p className="text-xs text-gray-500">
               {formData.propertyDescription.length}/500 characters
             </p>
           </div>
         </div>
 
+        {/* Amenities Section */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
             <div className="flex items-center gap-2">
               <FiCheckSquare className="text-gray-400" />
               Available Amenities <span className="text-red-500">*</span>
             </div>
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-lg">
             {[
               'Wi-Fi',
               'AC',
@@ -527,7 +535,7 @@ const RoomOwnerRegistrationPage = () => {
               'Gym',
               'Swimming Pool'
             ].map((amenity) => (
-              <div key={amenity} className="flex items-center">
+              <div key={amenity} className="flex items-center space-x-2 bg-white px-3 py-2 rounded-md shadow-sm">
                 <input
                   type="checkbox"
                   id={`amenity-${amenity}`}
@@ -537,80 +545,89 @@ const RoomOwnerRegistrationPage = () => {
                   onChange={handleInputChange}
                   className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <label htmlFor={`amenity-${amenity}`} className="ml-2 text-sm text-gray-700">
+                <label htmlFor={`amenity-${amenity}`} className="text-sm text-gray-700 select-none">
                   {amenity}
                 </label>
               </div>
             ))}
           </div>
           {errors.amenities && (
-            <p className="mt-1 text-xs text-red-500">{errors.amenities}</p>
+            <p className="mt-2 text-xs text-red-500">{errors.amenities}</p>
           )}
         </div>
 
-        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-          <div className="space-y-1 text-center">
-            {formData.propertyImages ? (
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center justify-center gap-4">
-                  {Array.from(formData.propertyImages).map((file, index) => (
-                    <div key={index} className="relative">
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`Property ${index + 1}`}
-                        className="h-20 w-20 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const newImages = formData.propertyImages?.filter((_, i) => i !== index) || null;
-                          setFormData(prev => ({ ...prev, propertyImages: newImages }));
-                        }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFormData(prev => ({ ...prev, propertyImages: null }));
-                    const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-                    if (fileInput) fileInput.value = '';
-                  }}
-                  className="text-sm text-red-600 hover:text-red-700 font-medium"
-                >
-                  Remove all images
-                </button>
-              </div>
-            ) : (
-              <>
-                <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
-                <div className="flex flex-col text-sm text-gray-600">
-                  <label
-                    htmlFor="file-upload"
-                    className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+        {/* Image Upload Section */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            <div className="flex items-center gap-2">
+              <FiUpload className="text-gray-400" />
+              Property Images <span className="text-red-500">*</span>
+            </div>
+          </label>
+          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50">
+            <div className="space-y-1 text-center">
+              {formData.propertyImages ? (
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-center gap-4">
+                    {Array.from(formData.propertyImages).map((file, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={`Property ${index + 1}`}
+                          className="h-20 w-20 object-cover rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newImages = formData.propertyImages?.filter((_, i) => i !== index) || null;
+                            setFormData(prev => ({ ...prev, propertyImages: newImages }));
+                          }}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData(prev => ({ ...prev, propertyImages: null }));
+                      const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+                      if (fileInput) fileInput.value = '';
+                    }}
+                    className="text-sm text-red-600 hover:text-red-700 font-medium"
                   >
-                    <span>Upload property images</span>
-                    <input
-                      id="file-upload"
-                      name="propertyImages"
-                      type="file"
-                      className="sr-only"
-                      onChange={handleFileChange}
-                      accept="image/jpeg,image/png,image/jpg"
-                      multiple
-                      required
-                    />
-                  </label>
-                  <p className="text-xs text-gray-500 mt-2">
-                    JPG, JPEG or PNG up to 5MB (max. 5 images)
-                  </p>
+                    Remove all images
+                  </button>
                 </div>
-              </>
-            )}
+              ) : (
+                <>
+                  <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+                  <div className="flex flex-col text-sm text-gray-600">
+                    <label
+                      htmlFor="file-upload"
+                      className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                    >
+                      <span>Upload Property Images</span>
+                      <input
+                        id="file-upload"
+                        name="propertyImages"
+                        type="file"
+                        className="sr-only"
+                        onChange={handleFileChange}
+                        accept="image/jpeg,image/png,image/jpg"
+                        multiple
+                        required
+                      />
+                    </label>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Upload clear photos of rooms, bathroom, kitchen, and building exterior (Max. 5 images)
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -1077,64 +1094,70 @@ const RoomOwnerRegistrationPage = () => {
 
             {/* Step 3: Room Details */}
             {step === 3 && (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <h3 className="text-xl font-semibold text-gray-800 mb-6">Room Details</h3>
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      <div className="flex items-center gap-2">
-                        <MdApartment className="text-gray-400" />
-                        Room Type
-                      </div>
-                    </label>
-                    <select
-                      name="roomType"
-                      value={formData.roomType}
-                      onChange={handleInputChange}
-                      className={`w-full px-4 py-2 rounded-lg border ${errors.roomType ? 'border-red-500' : 'border-gray-300'
+                <div className="grid grid-cols-1 gap-8">
+                  {/* Room Type and Address Section */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <div className="flex items-center gap-2">
+                          <MdApartment className="text-gray-400" />
+                          Room Type <span className="text-red-500">*</span>
+                        </div>
+                      </label>
+                      <select
+                        name="roomType"
+                        value={formData.roomType}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-2.5 rounded-lg border ${
+                          errors.roomType ? 'border-red-500' : 'border-gray-300'
                         } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                      required
-                    >
-                      <option value="">Select Room Type</option>
-                      <option value="1bhk">1 BHK</option>
-                      <option value="2bhk">2 BHK</option>
-                      <option value="3bhk">3 BHK</option>
-                      <option value="4bhk">4+ BHK</option>
-                      <option value="single">Single Room</option>
-                      <option value="sharing">Sharing Room</option>
-                    </select>
-                    {errors.roomType && (
-                      <p className="mt-1 text-xs text-red-500">{errors.roomType}</p>
-                    )}
+                        required
+                      >
+                        <option value="">Select Room Type</option>
+                        <option value="1bhk">1 BHK</option>
+                        <option value="2bhk">2 BHK</option>
+                        <option value="3bhk">3 BHK</option>
+                        <option value="4bhk">4+ BHK</option>
+                        <option value="single">Single Room</option>
+                        <option value="sharing">Sharing Room</option>
+                      </select>
+                      {errors.roomType && (
+                        <p className="mt-1 text-xs text-red-500">{errors.roomType}</p>
+                      )}
+                    </div>
+
+                    <div className="col-span-1 md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <div className="flex items-center gap-2">
+                          <FiMapPin className="text-gray-400" />
+                          Property Address <span className="text-red-500">*</span>
+                        </div>
+                      </label>
+                      <textarea
+                        name="propertyAddress"
+                        value={formData.propertyAddress}
+                        onChange={handleInputChange}
+                        placeholder="Enter complete address including landmark, city, and PIN code"
+                        rows={3}
+                        className={`w-full px-4 py-2.5 rounded-lg border ${
+                          errors.propertyAddress ? 'border-red-500' : 'border-gray-300'
+                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none`}
+                        required
+                      />
+                      {errors.propertyAddress && (
+                        <p className="mt-1 text-xs text-red-500">{errors.propertyAddress}</p>
+                      )}
+                    </div>
                   </div>
 
+                  {/* Description Section */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      <div className="flex items-center gap-2">
-                        <FiMapPin className="text-gray-400" />
-                        Property Address
-                      </div>
-                    </label>
-                    <textarea
-                      name="propertyAddress"
-                      value={formData.propertyAddress}
-                      onChange={handleInputChange}
-                      placeholder="Enter complete address including landmark, city, and PIN code"
-                      rows={3}
-                      className={`w-full px-4 py-2 rounded-lg border ${errors.propertyAddress ? 'border-red-500' : 'border-gray-300'
-                        } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors`}
-                      required
-                    />
-                    {errors.propertyAddress && (
-                      <p className="mt-1 text-xs text-red-500">{errors.propertyAddress}</p>
-                    )}
-                  </div>
-
-                  <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       <div className="flex items-center gap-2">
                         <MdDescription className="text-gray-400" />
-                        Property Description
+                        Property Description <span className="text-red-500">*</span>
                       </div>
                     </label>
                     <textarea
@@ -1142,34 +1165,35 @@ const RoomOwnerRegistrationPage = () => {
                       value={formData.propertyDescription}
                       onChange={handleInputChange}
                       placeholder="Describe your property, including key features, nearby amenities, and house rules..."
-                      rows={6}
+                      rows={4}
                       className={`w-full px-4 py-3 rounded-lg border ${
                         errors.propertyDescription ? 'border-red-500' : 'border-gray-300'
-                      } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[150px] max-h-[300px]`}
+                      } focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y min-h-[120px] max-h-[300px]`}
                       required
                     />
-                    <div className="mt-1 flex justify-between items-center">
-                      {errors.propertyDescription ? (
-                        <p className="text-xs text-red-500">{errors.propertyDescription}</p>
-                      ) : (
-                        <p className="text-xs text-gray-500">
-                          Minimum {50 - formData.propertyDescription.length > 0 ? 50 - formData.propertyDescription.length : 0} characters needed
-                        </p>
-                      )}
+                    <div className="mt-1 flex flex-col sm:flex-row justify-between gap-2">
+                      <p className="text-xs text-gray-500">
+                        {errors.propertyDescription ? (
+                          <span className="text-red-500">{errors.propertyDescription}</span>
+                        ) : (
+                          `Minimum ${Math.max(0, 50 - formData.propertyDescription.length)} characters needed`
+                        )}
+                      </p>
                       <p className="text-xs text-gray-500">
                         {formData.propertyDescription.length}/500 characters
                       </p>
                     </div>
                   </div>
 
+                  {/* Amenities Section */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
                       <div className="flex items-center gap-2">
                         <FiCheckSquare className="text-gray-400" />
-                        Available Amenities
+                        Available Amenities <span className="text-red-500">*</span>
                       </div>
                     </label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-lg">
                       {[
                         'Wi-Fi',
                         'AC',
@@ -1182,7 +1206,7 @@ const RoomOwnerRegistrationPage = () => {
                         'Gym',
                         'Swimming Pool'
                       ].map((amenity) => (
-                        <div key={amenity} className="flex items-center">
+                        <div key={amenity} className="flex items-center space-x-2 bg-white px-3 py-2 rounded-md shadow-sm">
                           <input
                             type="checkbox"
                             id={`amenity-${amenity}`}
@@ -1192,80 +1216,89 @@ const RoomOwnerRegistrationPage = () => {
                             onChange={handleInputChange}
                             className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                           />
-                          <label htmlFor={`amenity-${amenity}`} className="ml-2 text-sm text-gray-700">
+                          <label htmlFor={`amenity-${amenity}`} className="text-sm text-gray-700 select-none">
                             {amenity}
                           </label>
                         </div>
                       ))}
                     </div>
                     {errors.amenities && (
-                      <p className="mt-1 text-xs text-red-500">{errors.amenities}</p>
+                      <p className="mt-2 text-xs text-red-500">{errors.amenities}</p>
                     )}
                   </div>
 
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
-                    <div className="space-y-1 text-center">
-                      {formData.propertyImages ? (
-                        <div className="space-y-4">
-                          <div className="flex flex-wrap items-center justify-center gap-4">
-                            {Array.from(formData.propertyImages).map((file, index) => (
-                              <div key={index} className="relative">
-                                <img
-                                  src={URL.createObjectURL(file)}
-                                  alt={`Property ${index + 1}`}
-                                  className="h-20 w-20 object-cover rounded-lg"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    const newImages = formData.propertyImages?.filter((_, i) => i !== index) || null;
-                                    setFormData(prev => ({ ...prev, propertyImages: newImages }));
-                                  }}
-                                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setFormData(prev => ({ ...prev, propertyImages: null }));
-                              const fileInput = document.getElementById('file-upload') as HTMLInputElement;
-                              if (fileInput) fileInput.value = '';
-                            }}
-                            className="text-sm text-red-600 hover:text-red-700 font-medium"
-                          >
-                            Remove all images
-                          </button>
-                        </div>
-                      ) : (
-                        <>
-                          <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="flex flex-col text-sm text-gray-600">
-                            <label
-                              htmlFor="file-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                  {/* Image Upload Section */}
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      <div className="flex items-center gap-2">
+                        <FiUpload className="text-gray-400" />
+                        Property Images <span className="text-red-500">*</span>
+                      </div>
+                    </label>
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50">
+                      <div className="space-y-1 text-center">
+                        {formData.propertyImages ? (
+                          <div className="space-y-4">
+                            <div className="flex flex-wrap items-center justify-center gap-4">
+                              {Array.from(formData.propertyImages).map((file, index) => (
+                                <div key={index} className="relative">
+                                  <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={`Property ${index + 1}`}
+                                    className="h-20 w-20 object-cover rounded-lg"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const newImages = formData.propertyImages?.filter((_, i) => i !== index) || null;
+                                      setFormData(prev => ({ ...prev, propertyImages: newImages }));
+                                    }}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
+                                  >
+                                    ×
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, propertyImages: null }));
+                                const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+                                if (fileInput) fileInput.value = '';
+                              }}
+                              className="text-sm text-red-600 hover:text-red-700 font-medium"
                             >
-                              <span>Upload Property Images</span>
-                              <input
-                                id="file-upload"
-                                name="propertyImages"
-                                type="file"
-                                className="sr-only"
-                                onChange={handleFileChange}
-                                accept="image/jpeg,image/png,image/jpg"
-                                multiple
-                                required
-                              />
-                            </label>
-                            <p className="text-xs text-gray-500 mt-2">
-                              Upload clear photos of rooms, bathroom, kitchen, and building exterior (Max. 5 images)
-                            </p>
+                              Remove all images
+                            </button>
                           </div>
-                        </>
-                      )}
+                        ) : (
+                          <>
+                            <FiUpload className="mx-auto h-12 w-12 text-gray-400" />
+                            <div className="flex flex-col text-sm text-gray-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                              >
+                                <span>Upload Property Images</span>
+                                <input
+                                  id="file-upload"
+                                  name="propertyImages"
+                                  type="file"
+                                  className="sr-only"
+                                  onChange={handleFileChange}
+                                  accept="image/jpeg,image/png,image/jpg"
+                                  multiple
+                                  required
+                                />
+                              </label>
+                              <p className="text-xs text-gray-500 mt-2">
+                                Upload clear photos of rooms, bathroom, kitchen, and building exterior (Max. 5 images)
+                              </p>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

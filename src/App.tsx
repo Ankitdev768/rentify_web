@@ -11,13 +11,15 @@ import DownloadApp from './components/DownloadApp';
 import Footer from './components/Footer';
 import ContactPage from './components/ContactPage';
 import ReportFraudPage from './components/ReportFraudPage';
+import ChatbotPage from './components/Chatbot';
 
 // 👇 Import the partner forms
 import MessOwnerWeb from './pages/Mess/MessOwnerWeb';
 import RoomOwnerWeb from './pages/Room/RoomOwnerWeb';
 import MessOwnerForm from './pages/Mess/MessOwnerForm';
 import RoomOwnerForm from './pages/Room/RoomOwnerForm';
-import Home from './pages/About/home'; // Fix casing to match actual file name
+import Home from './pages/About/Home';
+
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
               <Join />
               <DownloadApp />
               <Footer />
+              <ChatbotPage />
             </>
           }
         />
@@ -47,8 +50,9 @@ function App() {
         <Route path="/room-owner-form" element={<RoomOwnerForm />} />
         <Route path="/contact-page" element={<ContactPage />} />
         <Route path="/fraud-page" element={<ReportFraudPage />} />
-        <Route path="/about-us" element={<Home />} /> 
+        <Route path="/about-us" element={<Home />} />
         <Route path="/#" element={<Hero />} />
+       
       </Routes>
     </Router>
   );
