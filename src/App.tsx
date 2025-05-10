@@ -19,7 +19,7 @@ import RoomOwnerWeb from './pages/Room/RoomOwnerWeb';
 import MessOwnerForm from './pages/Mess/MessOwnerForm';
 import RoomOwnerForm from './pages/Room/RoomOwnerForm';
 import Home from './pages/About/Home';
-
+import ChatBot from './pages/Chatbot/src/App';
 
 function App() {
   return (
@@ -52,7 +52,7 @@ function App() {
         <Route path="/fraud-page" element={<ReportFraudPage />} />
         <Route path="/about-us" element={<Home />} />
         <Route path="/#" element={<Hero />} />
-       
+        <Route path="/chatbot" element={<ChatBot />} />
       </Routes>
     </Router>
   );
